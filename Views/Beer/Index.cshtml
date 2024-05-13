@@ -30,7 +30,15 @@
 				<td>
 					@beer.Brand.Name
 				</td>
+				<td>
+					<!-- Botón para eliminar la cerveza -->
+					<form asp-action="Delete" asp-route-id="@beer.BeerId" method="post" onsubmit="return confirm('¿Estás seguro de eliminar esta cerveza?');">
+						<input type="hidden" name="id" value="@beer.BeerId" />
 
+						<button type="submit" class="btn btn-danger">Eliminar</button>
+
+					</form>
+				</td>
 			</tr>
 		}
 	</tbody>
