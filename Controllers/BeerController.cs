@@ -41,5 +41,23 @@ namespace WebApplication1.Controllers
 			ViewData["Brands"] = new SelectList(_context.Brands, "BrandId", "Name", beerViewModel.BrandId);
 			return View(beerViewModel);
 		}
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Delete(int id)
+		{
+			var beerToDelete = await _context.Beers.FindAsync(id);
+
+			if (beerToDelete == null)
+			{
+				return NotFound(); // Retorna 404 si la cerveza con el id dado no se encuentra
+			}
+
+			_context.Beers.Remove(beerToDelete);
+			await _context.SaveChangesAsync();
+
+			return RedirectToAction(nameof(Index));
+			
+		}
+
 	}
 }

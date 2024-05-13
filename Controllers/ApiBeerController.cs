@@ -27,6 +27,22 @@ namespace WebApplication1.Controllers
 
 			return CreatedAtAction(nameof(Get), new { id = newBeer.BeerId }, newBeer);
 		}
+		// DELETE: api/ApiBeer/DeleteBeers/{id}
+		[HttpPost("DeleteBeers")]
+		public async Task<IActionResult> Delete(int id)
+		{
+			var beerToDelete = await _context.Beers.FindAsync(id);
+
+			if (beerToDelete == null)
+			{
+				return NotFound(); // Return 404 Not Found if beer with given id is not found
+			}
+
+			_context.Beers.Remove(beerToDelete);
+			await _context.SaveChangesAsync();
+
+			return NoContent(); // Return 204 No Content on successful deletion
+		}
 
 	}
 
